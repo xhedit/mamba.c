@@ -156,6 +156,7 @@ def get_model_from_huggingface(model_name: str):
         'state-spaces/mamba-1.4b'
         'state-spaces/mamba-2.8b'
         'state-spaces/mamba-2.8b-slimpj'
+        'jondurbin/bagel-dpo-2.8b-v0.2'
     """
     from transformers.utils import WEIGHTS_NAME, CONFIG_NAME
     from transformers.utils.hub import cached_file
@@ -171,12 +172,14 @@ def get_model_from_huggingface(model_name: str):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("source", type=str, help="model name or folder where the model files are located", default="state-spaces/mamba-130m")
+    parser.add_argument("source", type=str, help="model name or folder where the model files are located", default="jondurbin/bagel-dpo-2.8b-v0.2")
     parser.add_argument("destination", type=str, help="full path to the output file", default="model.bin")
     args = parser.parse_args()
 
     # if the source starts with 'state-spaces/mamba-' then load the model from HuggingFace
     if args.source.startswith('state-spaces/mamba-'):
+        model_path = get_model_from_huggingface(args.source)
+    elif args.source.startswith('jondurbin/bagel-dpo-2.8b-v0.2'):
         model_path = get_model_from_huggingface(args.source)
     else:
         model_path = args.source
